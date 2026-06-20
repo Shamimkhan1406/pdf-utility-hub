@@ -73,34 +73,34 @@ export default function Home() {
   };
 
   return (
-    
+
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
       <div className="max-w-5xl mx-auto px-6 py-12">
         <header className="flex flex-col md:flex-row md:justify-between md:items-center mb-12 gap-6">
 
-  <div>
-    <h2 className="font-semibold text-lg">
-      Shamim Khan
-    </h2>
+          <div>
+            <h2 className="font-semibold text-lg">
+              Shamim Khan
+            </h2>
 
-    <p className="text-slate-400">
-      your-email@gmail.com
-    </p>
-  </div>
+            <p className="text-slate-400">
+              shamim4khan0@gmail.com
+            </p>
+          </div>
 
-  <a
-    href="https://digitalheroesco.com"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="bg-orange-500 hover:bg-orange-600 transition px-5 py-3 rounded-xl font-semibold"
-  >
-    Built for Digital Heroes
-  </a>
+          <a
+            href="https://digitalheroesco.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-orange-500 hover:bg-orange-600 transition px-5 py-3 rounded-xl font-semibold"
+          >
+            Built for Digital Heroes
+          </a>
 
-</header>
+        </header>
 
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4">
+          <h1 className="text-6xl md:text-7xl font-bold mb-6">
             PDF Utility Hub
           </h1>
 
@@ -109,6 +109,22 @@ export default function Home() {
             downloading document bundles quickly without installing
             heavy desktop software.
           </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-4 mb-10">
+
+          <div className="bg-slate-900/50 border border-slate-700 px-5 py-3 rounded-xl">
+            📄 Merge PDFs
+          </div>
+
+          <div className="bg-slate-900/50 border border-slate-700 px-5 py-3 rounded-xl">
+            📦 ZIP Download
+          </div>
+
+          <div className="bg-slate-900/50 border border-slate-700 px-5 py-3 rounded-xl">
+            🔒 Browser Based
+          </div>
+
         </div>
 
         <FileUploader onFilesAdded={handleFilesAdded} />

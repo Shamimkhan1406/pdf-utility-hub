@@ -1,3 +1,44 @@
+
+
+
+# PDF Utility Hub
+
+A browser-based PDF utility for merging multiple PDF files and downloading document bundles as ZIP archives.
+
+## Features
+
+- Merge multiple PDFs into a single document
+- Download uploaded PDFs as ZIP
+- Drag & Drop upload
+- Responsive UI
+- Client-side processing
+- No data uploaded to any server
+
+## Tech Stack
+
+- Next.js 16
+- TypeScript
+- Tailwind CSS
+- pdf-lib
+- JSZip
+- File Saver
+
+## Live Demo
+
+(link)
+
+## Author
+
+Shamim Khan
+
+
+
+
+
+
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
