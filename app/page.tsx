@@ -1,4 +1,15 @@
+"use client";
+
+import { useState } from "react";
+import FileUploader from "@/components/FileUploader";
+
 export default function Home() {
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleFilesAdded = (newFiles: File[]) => {
+    setFiles((prev) => [...prev, ...newFiles]);
+  };
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white">
       <div className="max-w-5xl mx-auto px-6 py-12">
@@ -8,50 +19,35 @@ export default function Home() {
             PDF Utility Hub
           </h1>
 
-          <p className="text-slate-300 text-lg">
-            Merge multiple PDFs and download them instantly.
+          <p className="text-slate-300">
+            Merge PDFs and download ZIP files instantly.
           </p>
         </div>
 
-        <div className="bg-slate-900 border border-slate-700 rounded-3xl p-10 shadow-2xl">
+        <FileUploader onFilesAdded={handleFilesAdded} />
 
-          <div className="border-2 border-dashed border-slate-600 rounded-2xl p-16 text-center">
-            <p className="text-slate-400">
-              Drag & Drop PDFs Here
-            </p>
+        {files.length > 0 && (
+          <div className="mt-8 bg-slate-900 rounded-2xl p-6">
+            <h2 className="text-xl font-semibold mb-4">
+              Uploaded Files
+            </h2>
+
+            <div className="space-y-3">
+              {files.map((file, index) => (
+                <div
+                  key={index}
+                  className="flex justify-between bg-slate-800 p-3 rounded-xl"
+                >
+                  <span>{file.name}</span>
+
+                  <span>
+                    {(file.size / 1024).toFixed(1)} KB
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-
-          <div className="flex flex-wrap gap-4 justify-center mt-8">
-            <button className="bg-blue-600 px-6 py-3 rounded-xl">
-              Merge PDFs
-            </button>
-
-            <button className="bg-green-600 px-6 py-3 rounded-xl">
-              Download ZIP
-            </button>
-          </div>
-        </div>
-
-        <div className="text-center mt-12 space-y-4">
-
-          <a
-            href="https://digitalheroesco.com"
-            target="_blank"
-            className="inline-block bg-orange-500 px-6 py-3 rounded-xl font-semibold"
-          >
-            Built for Digital Heroes
-          </a>
-
-          <div>
-            <p className="font-semibold">
-              Shamim Khan
-            </p>
-
-            <p className="text-slate-400">
-              shamim4khan0@gmail.com
-            </p>
-          </div>
-        </div>
+        )}
 
       </div>
     </main>
