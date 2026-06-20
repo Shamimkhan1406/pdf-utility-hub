@@ -5,10 +5,12 @@ import { saveAs } from "file-saver";
 
 import FileUploader from "@/components/FileUploader";
 import { mergePDFs } from "@/utils/pdfMerge";
+import { createZip } from "@/utils/createZip";
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
   const [isMerging, setIsMerging] = useState(false);
+  const [isZipping, setIsZipping] = useState(false);
 
   const handleFilesAdded = (newFiles: File[]) => {
     setFiles((prev) => [...prev, ...newFiles]);
@@ -38,6 +40,26 @@ export default function Home() {
       alert("Failed to merge PDFs");
     } finally {
       setIsMerging(false);
+    }
+  };
+
+  const handleZipDownload = async () => {
+    if (files.length === 0) {
+      alert("Please upload PDFs first");
+      return;
+    }
+
+    try {
+      setIsZipping(true);
+
+      const zipBlob = await createZip(files);
+
+      saveAs(zipBlob, "pdf-files.zip");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to create ZIP");
+    } finally {
+      setIsZipping(false);
     }
   };
 
@@ -80,7 +102,8 @@ export default function Home() {
               ))}
             </div>
 
-            <div className="mt-6 flex justify-center">
+            <div className="mt-6 flex flex-wrap justify-center gap-4">
+
               <button
                 onClick={handleMerge}
                 disabled={isMerging}
@@ -88,6 +111,15 @@ export default function Home() {
               >
                 {isMerging ? "Merging..." : "Merge PDFs"}
               </button>
+
+              <button
+                onClick={handleZipDownload}
+                disabled={isZipping}
+                className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 px-6 py-3 rounded-xl font-medium transition"
+              >
+                {isZipping ? "Creating ZIP..." : "Download ZIP"}
+              </button>
+
             </div>
           </div>
         )}
