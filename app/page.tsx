@@ -1,13 +1,44 @@
 "use client";
 
 import { useState } from "react";
+import { saveAs } from "file-saver";
+
 import FileUploader from "@/components/FileUploader";
+import { mergePDFs } from "@/utils/pdfMerge";
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
+  const [isMerging, setIsMerging] = useState(false);
 
   const handleFilesAdded = (newFiles: File[]) => {
     setFiles((prev) => [...prev, ...newFiles]);
+  };
+
+  const handleMerge = async () => {
+    if (files.length < 2) {
+      alert("Please upload at least 2 PDF files");
+      return;
+    }
+
+    try {
+      setIsMerging(true);
+
+      const mergedPdfBytes = await mergePDFs(files);
+
+      const blob = new Blob(
+        [new Uint8Array(mergedPdfBytes)],
+        {
+          type: "application/pdf",
+        }
+      );
+
+      saveAs(blob, "merged-document.pdf");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to merge PDFs");
+    } finally {
+      setIsMerging(false);
+    }
   };
 
   return (
@@ -19,8 +50,8 @@ export default function Home() {
             PDF Utility Hub
           </h1>
 
-          <p className="text-slate-300">
-            Merge PDFs and download ZIP files instantly.
+          <p className="text-slate-300 text-lg">
+            Merge multiple PDFs instantly.
           </p>
         </div>
 
@@ -29,22 +60,34 @@ export default function Home() {
         {files.length > 0 && (
           <div className="mt-8 bg-slate-900 rounded-2xl p-6">
             <h2 className="text-xl font-semibold mb-4">
-              Uploaded Files
+              Uploaded Files ({files.length})
             </h2>
 
             <div className="space-y-3">
               {files.map((file, index) => (
                 <div
-                  key={index}
-                  className="flex justify-between bg-slate-800 p-3 rounded-xl"
+                  key={`${file.name}-${index}`}
+                  className="flex justify-between items-center bg-slate-800 p-4 rounded-xl"
                 >
-                  <span>{file.name}</span>
+                  <span className="truncate">
+                    {file.name}
+                  </span>
 
-                  <span>
+                  <span className="text-slate-400">
                     {(file.size / 1024).toFixed(1)} KB
                   </span>
                 </div>
               ))}
+            </div>
+
+            <div className="mt-6 flex justify-center">
+              <button
+                onClick={handleMerge}
+                disabled={isMerging}
+                className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 px-6 py-3 rounded-xl font-medium transition"
+              >
+                {isMerging ? "Merging..." : "Merge PDFs"}
+              </button>
             </div>
           </div>
         )}
